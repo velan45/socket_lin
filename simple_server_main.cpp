@@ -2,6 +2,9 @@
 #include "SocketException.h"
 #include <string>
 #include <iostream>
+#define BUFSIZE 512
+#define PACKETSIZE sizeof(MSG)
+
 int main ( int argc, int argv[] )
 {
   std::cout << "running....\n";
@@ -20,9 +23,12 @@ int main ( int argc, int argv[] )
 	  try
 	    {
 	      while ( true )
-		{
-		  std::string data;
+		{MSG* temp = new MSG;
+
+		  char data[PACKETSIZE];
 		  new_sock >> data;
+		deserialize(data, temp);
+		printMsg(temp);
 		  new_sock << data;
 		}
 	    }

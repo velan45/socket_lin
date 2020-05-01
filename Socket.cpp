@@ -10,7 +10,61 @@
 
 using namespace std;
 
+void serialize(MSG* msgPacket, char *data)
+{
+    int *q = (int*)data;    
+    *q = msgPacket->type;       q++;    
+    *q = msgPacket->priority;   q++;    
+    *q = msgPacket->sender;     q++;
 
+    char *p = (char*)q;
+    int i = 0;
+    while (i < BUFSIZE)
+    {
+        *p = msgPacket->message[i];
+        p++;
+        i++;
+    }
+
+}
+
+void deserialize(const char *data, MSG* msgPacket)
+{
+    int *q = (int*)data;    
+    msgPacket->type = *q;       q++;    
+    msgPacket->priority = *q;   q++;    
+    msgPacket->sender = *q;     q++;
+
+    char *p = (char*)q;
+    int i = 0;
+    while (i < BUFSIZE)
+    {
+        msgPacket->message[i] = *p;
+        p++;
+        i++;
+    }
+}
+
+void printMsg(MSG* msgPacket)
+{
+    std::cout << msgPacket->type << std::endl;
+    std::cout << msgPacket->priority << std::endl;
+    std::cout << msgPacket->sender << std::endl;
+    std::cout << msgPacket->message << std::endl;
+}
+std::string converttostring(char*a)
+{
+	int i;
+	int size = sizeof(a);
+	string s ="";
+	for(i = 0; i < size; i++)
+	{
+		s = s + a[i];
+		cout << "in string conversion loop:" << s << std::endl;
+		}
+
+	return s;
+}
 Socket::Socket() :
   m_sock ( -1 )
 {
@@ -108,9 +162,13 @@ bool Socket::accept ( Socket& new_socket ) const
 }
 
 
-bool Socket::send ( const std::string s ) const
+bool Socket::send ( const char* s ) const
 {
-  int status = ::send ( m_sock, s.c_str(), s.size(), MSG_NOSIGNAL );
+std::cout << " in main socket.cpp send \n" <<std::endl;
+MSG* temp1 = new MSG;
+deserialize(s, temp1);
+printMsg(temp1);
+  int status = ::send ( m_sock, s, sizeof(s), MSG_NOSIGNAL );
   if ( status == -1 )
     {
       return false;
@@ -122,11 +180,11 @@ bool Socket::send ( const std::string s ) const
 }
 
 
-int Socket::recv ( std::string& s ) const
+int Socket::recv ( char* s ) const
 {
   char buf [ MAXRECV + 1 ];
 
-  s = "";
+ // s = "";
 
   memset ( buf, 0, MAXRECV + 1 );
 
@@ -142,10 +200,15 @@ int Socket::recv ( std::string& s ) const
       return 0;
     }
   else
-    {
+    { cout << " buffer copied\n" ;
       s = buf;
+std::cout << " in main socket.cpp recv\n" <<std::endl;
+MSG* temp1 = new MSG;
+deserialize(s, temp1);
+printMsg(temp1);
       return status;
     }
+
 }
 
 

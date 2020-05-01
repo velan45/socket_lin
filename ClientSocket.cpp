@@ -2,6 +2,12 @@
 
 #include "ClientSocket.h"
 #include "SocketException.h"
+#include <cstring>
+#include <iostream>
+#include <string>
+
+
+
 
 
 ClientSocket::ClientSocket ( std::string host, int port )
@@ -19,8 +25,11 @@ ClientSocket::ClientSocket ( std::string host, int port )
 }
 
 
-const ClientSocket& ClientSocket::operator << ( const std::string& s ) const
-{
+const ClientSocket& ClientSocket::operator << ( const char* s ) const
+{std::cout << " in client_socket.cpp\n" <<std::endl;
+MSG* temp1 = new MSG;
+deserialize(s, temp1);
+printMsg(temp1);
   if ( ! Socket::send ( s ) )
     {
       throw SocketException ( "Could not write to socket." );
@@ -31,7 +40,7 @@ const ClientSocket& ClientSocket::operator << ( const std::string& s ) const
 }
 
 
-const ClientSocket& ClientSocket::operator >> ( std::string& s ) const
+const ClientSocket& ClientSocket::operator >> ( char* s ) const
 {
   if ( ! Socket::recv ( s ) )
     {
