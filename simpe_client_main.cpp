@@ -3,19 +3,25 @@
 #include <iostream>
 #include <string>
 
+struct packet{
+		int Number;
+		std::string s;
+	};
 int main ( int argc, int argv[] )
 {
+	struct packet my_packet, reply_packet;
+	
   try
     {
 
       ClientSocket client_socket ( "localhost", 30000 );
 
-      std::string reply;
+      
 
       try
 	{
-	  client_socket << "Test message. hai this is client";
-	  client_socket >> reply;
+	  client_socket << my_packet;
+	  client_socket >> reply_packet;
 	}
       catch ( SocketException& ) {}
 
