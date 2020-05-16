@@ -25,11 +25,13 @@ ClientSocket::ClientSocket ( std::string host, int port )
 }
 
 
-const ClientSocket& ClientSocket::operator << ( const char* s ) const
-{std::cout << " in client_socket.cpp\n" <<std::endl;
-MSG* temp1 = new MSG;
-deserialize(s, temp1);
-printMsg(temp1);
+ClientSocket& ClientSocket::operator << ( char* s ) 
+{
+NDebug std::cout << " in client_socket.cpp insertion overload\n" <<std::endl;
+NDebug MSG* temp1 = new MSG;
+NDebug deserialize(s, temp1);
+NDebug printMsg(temp1);
+
   if ( ! Socket::send ( s ) )
     {
       throw SocketException ( "Could not write to socket." );
@@ -40,12 +42,18 @@ printMsg(temp1);
 }
 
 
-const ClientSocket& ClientSocket::operator >> ( char* s ) const
+ClientSocket& ClientSocket::operator >> ( char* s ) 
 {
+
+
+
   if ( ! Socket::recv ( s ) )
     {
       throw SocketException ( "Could not read from socket." );
     }
-
+NDebug std::cout << " in client_socket.cpp extraction  overload\n" <<std::endl;
+NDebug MSG* temp1 = new MSG;
+NDebug deserialize(s, temp1);
+NDebug printMsg(temp1);
   return *this;
 }

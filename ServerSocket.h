@@ -14,8 +14,8 @@ class ServerSocket : private Socket
   ServerSocket (){};
   virtual ~ServerSocket();
 
-  const ServerSocket& operator << ( const char* ) const;
-  const ServerSocket& operator >> ( char* ) const;
+  ServerSocket& operator << ( char* );
+  ServerSocket& operator >> ( char* );
 
   void accept ( ServerSocket& );
 

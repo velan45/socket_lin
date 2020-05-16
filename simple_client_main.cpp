@@ -33,7 +33,7 @@ printMsg(temp1);
       try
 	{
 	  client_socket << data;
-	  client_socket >>data2 ;
+	  client_socket >> data2;
 	}
       catch ( SocketException& ) {}
 
@@ -45,7 +45,7 @@ printMsg(temp1);
       std::cout << "Exception was caught:" << e.description() << "\n";
     }
 //char data1[PACKETSIZE];
-
+std::cout << "Recieved response" << std::endl;
 MSG* temp = new MSG;
 deserialize(data2, temp);
 printMsg(temp);

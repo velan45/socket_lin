@@ -2,8 +2,10 @@
 #include "SocketException.h"
 #include <string>
 #include <iostream>
+#include "Socket.h"
 #define BUFSIZE 512
 #define PACKETSIZE sizeof(MSG)
+#define NDEBUG 
 
 int main ( int argc, int argv[] )
 {
@@ -23,13 +25,18 @@ int main ( int argc, int argv[] )
 	  try
 	    {
 	      while ( true )
-		{MSG* temp = new MSG;
-
-		  char data[PACKETSIZE];
-		  new_sock >> data;
-		deserialize(data, temp);
-		printMsg(temp);
-		  new_sock << data;
+		{
+		NDEBUG std::cout << " Inside while loop of main simpleserver" << std::endl;
+		NDEBUG MSG* temp = new MSG;
+		NDEBUG char data[512];
+		
+		new_sock >> data;
+		
+		NDEBUG deserialize(data, temp);
+		
+		NDEBUG printMsg(temp);
+		
+		new_sock << data;
 		}
 	    }
 	  catch ( SocketException& ) {}

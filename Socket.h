@@ -12,6 +12,8 @@
 #define BUFSIZE 512
 #define PACKETSIZE sizeof(MSG)
 
+#define NDebug 
+
 const int MAXHOSTNAME = 200;
 const int MAXCONNECTIONS = 5;
 const int MAXRECV = 500;
@@ -32,7 +34,7 @@ class Socket
   bool connect ( const std::string host, const int port );
 
   // Data Transimission
-  bool send ( const char* ) const;
+  bool send ( char* ) const;
   int recv ( char* ) const;
 
 

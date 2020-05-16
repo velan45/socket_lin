@@ -162,13 +162,15 @@ bool Socket::accept ( Socket& new_socket ) const
 }
 
 
-bool Socket::send ( const char* s ) const
+bool Socket::send ( char* s ) const
 {
-std::cout << " in main socket.cpp send \n" <<std::endl;
-MSG* temp1 = new MSG;
-deserialize(s, temp1);
-printMsg(temp1);
-  int status = ::send ( m_sock, s, sizeof(s), MSG_NOSIGNAL );
+
+NDebug std::cout << " socket.cpp -----send \n" <<std::endl;
+NDebug MSG* temp1 = new MSG;
+NDebug deserialize(s, temp1);
+NDebug printMsg(temp1);
+NDebug std::cout << "size sent:" << sizeof(s) << "bytes" << std::endl;
+  int status = ::send ( m_sock, s, 40, MSG_NOSIGNAL );
   if ( status == -1 )
     {
       return false;
@@ -180,9 +182,9 @@ printMsg(temp1);
 }
 
 
-int Socket::recv ( char* s ) const
+int Socket::recv ( char* buf ) const
 {
-  char buf [ MAXRECV + 1 ];
+  //char buf [ MAXRECV + 1 ];
 
  // s = "";
 
@@ -201,11 +203,12 @@ int Socket::recv ( char* s ) const
     }
   else
     { cout << " buffer copied\n" ;
-      s = buf;
-std::cout << " in main socket.cpp recv\n" <<std::endl;
-MSG* temp1 = new MSG;
-deserialize(s, temp1);
-printMsg(temp1);
+      //s = buf;
+NDebug std::cout << " in main socket.cpp------- recv\n" <<std::endl;
+NDebug std::cout << "size recieved:" << status<< "bytes" << std::endl;
+NDebug MSG* temp1 = new MSG;
+NDebug deserialize(buf, temp1);
+NDebug printMsg(temp1);
       return status;
     }
 

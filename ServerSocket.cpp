@@ -28,7 +28,7 @@ ServerSocket::~ServerSocket()
 }
 
 
-const ServerSocket& ServerSocket::operator << ( const char* s ) const
+ServerSocket& ServerSocket::operator << ( char* s ) 
 {
   if ( ! Socket::send ( s ) )
     {
@@ -40,7 +40,7 @@ const ServerSocket& ServerSocket::operator << ( const char* s ) const
 }
 
 
-const ServerSocket& ServerSocket::operator >> ( char* s ) const
+ServerSocket& ServerSocket::operator >> ( char* s )
 {
   if ( ! Socket::recv ( s ) )
     {
